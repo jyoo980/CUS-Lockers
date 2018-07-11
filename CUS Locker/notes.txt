@@ -1,0 +1,127 @@
+package com.company;
+
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class ExcelRead {
+
+    public static void main(String[] args) throws IOException {
+
+        XSSFWorkbook lockersheet = new XSSFWorkbook(new FileInputStream("Locker term 2.xls"));
+        XSSFSheet basement = lockersheet.getSheet("Basement");
+        XSSFSheet second = lockersheet.getSheet("Second Floor");
+        XSSFSheet third = lockersheet.getSheet("Third Floor");
+        XSSFSheet fourth = lockersheet.getSheet("Third Floor");
+
+
+        int r0 = 1;
+        XSSFRow basementRow = basement.getRow(r0);
+        while (basementRow.getCell(0) != null) {
+            Double num = basementRow.getCell(0).getNumericCellValue();
+            Locker l0 = new Locker(num, "Basement");
+            Database.getInstance().addBasementLockers(l0);
+            System.out.println(r0);
+            r0++;
+        }
+
+        int r2 = 1;
+        XSSFRow secondRow = second.getRow(r2);
+        while (secondRow.getCell(0) != null) {
+            Double num = secondRow.getCell(0).getNumericCellValue();
+            Locker l2 = new Locker(num, "Second Floor");
+            Database.getInstance().addSecondLockers(l2);
+            r2++;
+        }
+
+        int r3 = 1;
+        XSSFRow thirdRow = third.getRow(r3);
+        while (thirdRow.getCell(0) != null) {
+            Double num = thirdRow.getCell(0).getNumericCellValue();
+            Locker l3 = new Locker(num, "Third Floor");
+            Database.getInstance().addThirdLockers(l3);
+            r3++;
+        }
+
+        int r4 = 1;
+        XSSFRow fourthRow = fourth.getRow(r4);
+        while (fourthRow.getCell(0) != null) {
+            Double num = fourthRow.getCell(0).getNumericCellValue();
+            Locker l4 = new Locker(num, "Fourth Floor");
+            Database.getInstance().addFourthLockers(l4);
+            r4++;
+        }
+
+
+        XSSFWorkbook willcall = new XSSFWorkbook(new FileInputStream("Will_Call.xls"));
+        XSSFSheet sheet = willcall.getSheet("Will_Call");
+        int rows = sheet.getLastRowNum() + 1;
+
+
+    }
+
+}
+
+
+
+
+
+
+
+
+WRITE
+
+
+package com.company;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class ExcelRead {
+
+    public static void main(String[] args) throws IOException {
+
+        HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream("Will_Call.xls"));
+        HSSFSheet sheet = workbook.getSheetAt(0);
+        HSSFRow row = sheet.getRow(0);
+        if(row.getCell(0).getCellType() == HSSFCell.CELL_TYPE_STRING){
+            System.out.println(row.getCell(0).getStringCellValue());
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
