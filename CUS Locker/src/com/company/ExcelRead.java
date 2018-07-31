@@ -79,7 +79,7 @@ public class ExcelRead {
 
         //Write to Excel
         HSSFWorkbook allocation = new HSSFWorkbook();
-        List<HSSFSheet> sheets = new ArrayList<>();
+        List<HSSFSheet> sheets = new ArrayList<HSSFSheet>();
         HSSFSheet basementLockers = allocation.createSheet("Basement");
         HSSFSheet secondLockers = allocation.createSheet("Second Floor");
         HSSFSheet thirdLockers = allocation.createSheet("Third Floor");
@@ -107,82 +107,46 @@ public class ExcelRead {
         }
 
         List<Student> allStudents = Database.getInstance().students();
-        int studentSize = allStudents.size();
         int bRowCounter = 1;
         int sRowCounter = 1;
         int tRowCounter = 1;
         int fRowCounter = 1;
 
-        for (int j = 0; j < studentSize; j++) {
-            Student currStudent = allStudents.get(j);
+        for (Student currStudent : allStudents) {
             int lockerNum = currStudent.getLockerNum();
             if (lockerNum >= 1 && lockerNum < 2001) {
-                HSSFRow row = basementLockers.createRow(bRowCounter);
-                HSSFCell cell0 = row.createCell(0);
-                HSSFCell cell1 = row.createCell(1);
-                HSSFCell cell2 = row.createCell(2);
-                HSSFCell cell3 = row.createCell(3);
-                HSSFCell cell4 = row.createCell(4);
-                HSSFCell cell5 = row.createCell(5);
-                cell0.setCellValue(currStudent.getFirstName());
-                cell1.setCellValue(currStudent.getLastName());
-                cell2.setCellValue(currStudent.getStudentNumber());
-                cell3.setCellValue(currStudent.getPhoneNum());
-                cell4.setCellValue(currStudent.getEmail());
-                cell5.setCellValue(currStudent.getLockerNum());
+                setFloorCellValue(basementLockers, currStudent, bRowCounter);
                 bRowCounter++;
             } else if (lockerNum >= 2001 && lockerNum < 3001) {
-                HSSFRow row = secondLockers.createRow(sRowCounter);
-                HSSFCell cell0 = row.createCell(0);
-                HSSFCell cell1 = row.createCell(1);
-                HSSFCell cell2 = row.createCell(2);
-                HSSFCell cell3 = row.createCell(3);
-                HSSFCell cell4 = row.createCell(4);
-                HSSFCell cell5 = row.createCell(5);
-                cell0.setCellValue(currStudent.getFirstName());
-                cell1.setCellValue(currStudent.getLastName());
-                cell2.setCellValue(currStudent.getStudentNumber());
-                cell3.setCellValue(currStudent.getPhoneNum());
-                cell4.setCellValue(currStudent.getEmail());
-                cell5.setCellValue(currStudent.getLockerNum());
+                setFloorCellValue(secondLockers, currStudent, sRowCounter);
                 sRowCounter++;
             } else if (lockerNum >= 3001 && lockerNum < 4001) {
-                HSSFRow row = thirdLockers.createRow(tRowCounter);
-                HSSFCell cell0 = row.createCell(0);
-                HSSFCell cell1 = row.createCell(1);
-                HSSFCell cell2 = row.createCell(2);
-                HSSFCell cell3 = row.createCell(3);
-                HSSFCell cell4 = row.createCell(4);
-                HSSFCell cell5 = row.createCell(5);
-                cell0.setCellValue(currStudent.getFirstName());
-                cell1.setCellValue(currStudent.getLastName());
-                cell2.setCellValue(currStudent.getStudentNumber());
-                cell3.setCellValue(currStudent.getPhoneNum());
-                cell4.setCellValue(currStudent.getEmail());
-                cell5.setCellValue(currStudent.getLockerNum());
+                setFloorCellValue(thirdLockers, currStudent, tRowCounter);
                 tRowCounter++;
             } else {
-                HSSFRow row = fourthLockers.createRow(fRowCounter);
-                HSSFCell cell0 = row.createCell(0);
-                HSSFCell cell1 = row.createCell(1);
-                HSSFCell cell2 = row.createCell(2);
-                HSSFCell cell3 = row.createCell(3);
-                HSSFCell cell4 = row.createCell(4);
-                HSSFCell cell5 = row.createCell(5);
-                cell0.setCellValue(currStudent.getFirstName());
-                cell1.setCellValue(currStudent.getLastName());
-                cell2.setCellValue(currStudent.getStudentNumber());
-                cell3.setCellValue(currStudent.getPhoneNum());
-                cell4.setCellValue(currStudent.getEmail());
-                cell5.setCellValue(currStudent.getLockerNum());
+                setFloorCellValue(fourthLockers, currStudent, fRowCounter);
                 fRowCounter++;
             }
         }
 
-
         allocation.write(new FileOutputStream("Allocated Lockers.xls"));
         allocation.close();
+    }
 
+    private static void setFloorCellValue(HSSFSheet lockers, Student s, int rowCounter) {
+        HSSFRow row = lockers.createRow(rowCounter);
+        HSSFCell cell0 = row.createCell(0);
+        HSSFCell cell1 = row.createCell(1);
+        HSSFCell cell2 = row.createCell(2);
+        HSSFCell cell3 = row.createCell(3);
+        HSSFCell cell4 = row.createCell(4);
+        HSSFCell cell5 = row.createCell(5);
+        cell0.setCellValue(s.getFirstName());
+        cell1.setCellValue(s.getLastName());
+        cell2.setCellValue(s.getStudentNumber());
+        cell3.setCellValue(s.getPhoneNum());
+        cell4.setCellValue(s.getEmail());
+        cell5.setCellValue(s.getLockerNum());
     }
 }
 
